@@ -86,9 +86,7 @@ public class Encryptor
             fillBlock(splitMessage[i]);
             str += encryptBlock();
         }
-        /*if (str.length() > message.length()){
-            str = str.substring(0, message.length());
-        }*/
+
         return str;
     }
 
@@ -116,7 +114,32 @@ public class Encryptor
      */
     public String decryptMessage(String encryptedMessage)
     {
-        fillBlock(encryptedMessage);
-        return encryptBlock();
+        String decryptedMessage = "";
+        int num = encryptedMessage.length() / (numRows * numCols) + 1;
+        if (encryptedMessage.length() % (numRows * numCols) == 0){
+            num--;
+        }
+        while (num > 0){
+            String[][] temp = new String[numRows][numCols];
+            int strIndex = 0;
+            for (int c = 0; c < temp[0].length; c++){
+                for (int r = 0; r < temp.length; r++){
+                    temp[r][c] = encryptedMessage.substring(strIndex, strIndex + 1);
+                    strIndex++;
+                }
+            }
+            encryptedMessage = encryptedMessage.substring(strIndex);
+
+            for (int r = 0; r < temp.length; r++){
+                for (int c = 0; c < temp[0].length; c++){
+                    decryptedMessage += temp[r][c];
+                }
+            }
+            num--;
+        }
+        while (decryptedMessage.substring(decryptedMessage.length() - 1).equals("A")){
+            decryptedMessage = decryptedMessage.substring(0, decryptedMessage.length() - 1);
+        }
+        return decryptedMessage;
     }
 }
