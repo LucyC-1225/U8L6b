@@ -2,6 +2,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        /*Encryptor e = new Encryptor(3, 3, 1, 0);
+        e.fillBlock("abcdefghi");
+        System.out.println(e);
+        e.shiftRow(-1);
+        System.out.println(e);*/
+
         boolean quit = false;
         Scanner sc = new Scanner(System.in);
         while (!quit){

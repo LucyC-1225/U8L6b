@@ -86,8 +86,6 @@ public class Encryptor
      */
     public String encryptMessage(String message)
     {
-        shiftRow(rowsShifted);
-        shiftColumn(columnsShifted);
         int length = message.length() / (numRows * numCols) + 1;
         if (message.length() % (numRows * numCols) == 0){
             length--;
@@ -102,6 +100,8 @@ public class Encryptor
         String str = "";
         for (int i = 0; i < splitMessage.length; i++){
             fillBlock(splitMessage[i]);
+            shiftRow(rowsShifted);
+            shiftColumn(columnsShifted);
             str += encryptBlock();
         }
 
@@ -130,6 +130,39 @@ public class Encryptor
      *        (e.g. a method to decrypt each section of the decrypted message,
      *         similar to how encryptBlock was used)
      */
+    public String decryptMessage(String encryptedMessage)
+    {
+        String decryptedMessage = "";
+        int num = encryptedMessage.length() / (numRows * numCols) + 1;
+        if (encryptedMessage.length() % (numRows * numCols) == 0){
+            num--;
+        }
+        while (num > 0){
+            int strIndex = 0;
+            for (int c = 0; c < letterBlock[0].length; c++){
+                for (int r = 0; r < letterBlock.length; r++){
+                    letterBlock[r][c] = encryptedMessage.substring(strIndex, strIndex + 1);
+                    strIndex++;
+                }
+            }
+            encryptedMessage = encryptedMessage.substring(strIndex);
+
+            shiftRow(rowsShifted * -1);
+            shiftColumn(columnsShifted * -1);
+
+            for (int r = 0; r < letterBlock.length; r++){
+                for (int c = 0; c < letterBlock[0].length; c++){
+                    decryptedMessage += letterBlock[r][c];
+                }
+            }
+            num--;
+        }
+        while (decryptedMessage.substring(decryptedMessage.length() - 1).equals("A")){
+            decryptedMessage = decryptedMessage.substring(0, decryptedMessage.length() - 1);
+        }
+        return decryptedMessage;
+    }
+    /*
     public String decryptMessage(String encryptedMessage)
     {
         shiftRow(rowsShifted * -1);
@@ -162,15 +195,18 @@ public class Encryptor
         }
         return decryptedMessage;
     }
+    */
+
     public void shiftRow(int numShifts){
         String[][] result = new String[numRows][numCols];
+
         if (numShifts >= 0){
             for (int r = 0; r < letterBlock.length; r++){
                 for (int c = 0; c < letterBlock[0].length; c++){
                     if (c < letterBlock[0].length - numShifts){
                         result[r][c + numShifts] = letterBlock[r][c];
                     } else {
-                        result[r][c - numShifts + 1] = letterBlock[r][c];
+                        result[r][c - numShifts - 1] = letterBlock[r][c];
                     }
                 }
             }
@@ -180,7 +216,7 @@ public class Encryptor
                     if (c >= numShifts * -1){
                         result[r][c - (numShifts * -1)] = letterBlock[r][c];
                     } else {
-                        result[r][c + (numShifts * -1) - 1] = letterBlock[r][c];
+                        result[r][c + (numShifts * -1) + 1] = letterBlock[r][c];
                     }
                 }
             }
@@ -200,7 +236,7 @@ public class Encryptor
                     if (r < letterBlock.length - numShifts){
                         result[r + numShifts][c] = letterBlock[r][c];
                     } else {
-                        result[r - numShifts + 1][c] = letterBlock[r][c];
+                        result[r - numShifts - 1][c] = letterBlock[r][c];
                     }
                 }
             }
@@ -210,7 +246,7 @@ public class Encryptor
                     if (r >= numShifts * -1){
                         result[r - (numShifts * -1)][c] = letterBlock[r][c];
                     } else {
-                        result[r + (numShifts * -1) - 1][c] = letterBlock[r][c];
+                        result[r + (numShifts * -1) + 1][c] = letterBlock[r][c];
                     }
                 }
             }
