@@ -218,7 +218,7 @@ public class Encryptor
                         result[r][c - (numShifts * -1)] = letterBlock[r][c];
                     } else {
                         //check
-                        result[r][numCols - (numShifts - c)] = letterBlock[r][c];
+                        result[r][numCols - (numShifts * -1 - c)] = letterBlock[r][c];
                     }
                 }
             }
@@ -250,7 +250,7 @@ public class Encryptor
                         result[r - (numShifts * -1)][c] = letterBlock[r][c];
                     } else {
                         //check
-                        result[numRows - (numShifts - r)][c] = letterBlock[r][c];
+                        result[numRows - (numShifts * -1 - r)][c] = letterBlock[r][c];
                     }
                 }
             }
