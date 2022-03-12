@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Encryptor
 {
     /** A two-dimensional array of single-character strings, instantiated in the constructor */
@@ -9,12 +11,26 @@ public class Encryptor
     /** The number of columns of letterBlock, set by the constructor */
     private int numCols;
 
+    private int rowsShifted;
+
+    private int columnsShifted;
+
     /** Constructor*/
+    public Encryptor(int r, int c,int rowsShifted, int columnsShifted)
+    {
+        letterBlock = new String[r][c];
+        numRows = r;
+        numCols = c;
+        this.rowsShifted = rowsShifted % numCols;
+        this.columnsShifted = columnsShifted % numRows;
+    }
     public Encryptor(int r, int c)
     {
         letterBlock = new String[r][c];
         numRows = r;
         numCols = c;
+        this.rowsShifted = 0;
+        this.columnsShifted = 0;
     }
 
     public String[][] getLetterBlock()
@@ -70,6 +86,8 @@ public class Encryptor
      */
     public String encryptMessage(String message)
     {
+        shiftRow(rowsShifted);
+        shiftColumn(columnsShifted);
         int length = message.length() / (numRows * numCols) + 1;
         if (message.length() % (numRows * numCols) == 0){
             length--;
@@ -114,6 +132,8 @@ public class Encryptor
      */
     public String decryptMessage(String encryptedMessage)
     {
+        shiftRow(rowsShifted * -1);
+        shiftColumn(columnsShifted * -1);
         String decryptedMessage = "";
         int num = encryptedMessage.length() / (numRows * numCols) + 1;
         if (encryptedMessage.length() % (numRows * numCols) == 0){
@@ -141,5 +161,71 @@ public class Encryptor
             decryptedMessage = decryptedMessage.substring(0, decryptedMessage.length() - 1);
         }
         return decryptedMessage;
+    }
+    public void shiftRow(int numShifts){
+        String[][] result = new String[numRows][numCols];
+        if (numShifts >= 0){
+            for (int r = 0; r < letterBlock.length; r++){
+                for (int c = 0; c < letterBlock[0].length; c++){
+                    if (c < letterBlock[0].length - numShifts){
+                        result[r][c + numShifts] = letterBlock[r][c];
+                    } else {
+                        result[r][c - numShifts + 1] = letterBlock[r][c];
+                    }
+                }
+            }
+        } else {
+            for (int r = 0; r < letterBlock.length; r++){
+                for (int c = 0; c < letterBlock[0].length; c++){
+                    if (c >= numShifts * -1){
+                        result[r][c - (numShifts * -1)] = letterBlock[r][c];
+                    } else {
+                        result[r][c + (numShifts * -1) - 1] = letterBlock[r][c];
+                    }
+                }
+            }
+        }
+
+        for (int r = 0; r < result.length;r ++){
+            for (int c = 0; c < result[0].length; c++){
+                letterBlock[r][c] = result[r][c];
+            }
+        }
+    }
+    public void shiftColumn(int numShifts){
+        String[][] result = new String[numRows][numCols];
+        if (numShifts >= 0){
+            for (int c = 0; c < letterBlock[0].length; c++){
+                for (int r = 0; r < letterBlock.length; r++){
+                    if (r < letterBlock.length - numShifts){
+                        result[r + numShifts][c] = letterBlock[r][c];
+                    } else {
+                        result[r - numShifts + 1][c] = letterBlock[r][c];
+                    }
+                }
+            }
+        } else {
+            for (int c = 0; c < letterBlock[0].length; c++){
+                for (int r = 0; r < letterBlock.length; r++){
+                    if (r >= numShifts * -1){
+                        result[r - (numShifts * -1)][c] = letterBlock[r][c];
+                    } else {
+                        result[r + (numShifts * -1) - 1][c] = letterBlock[r][c];
+                    }
+                }
+            }
+        }
+
+        for (int r = 0; r < result.length;r ++){
+            for (int c = 0; c < result[0].length; c++){
+                letterBlock[r][c] = result[r][c];
+            }
+        }
+    }
+    public String toString(){
+        for (String[] rows : letterBlock){
+            System.out.println(Arrays.toString(rows));
+        }
+        return "";
     }
 }
