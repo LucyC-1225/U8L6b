@@ -23,9 +23,9 @@ public class Main {
                 int numRows = sc.nextInt();
                 System.out.print("Enter the number of columns: ");
                 int numColumns = sc.nextInt();
-                System.out.print("Enter the row offset: ");
+                System.out.print("Enter the row offset (negative = left shift, positive = right shift, 0 = no shift): ");
                 int rowOffset = sc.nextInt();
-                System.out.print("Enter the column offset: ");
+                System.out.print("Enter the column offset (negative = left shift, positive = right shift, 0 = no shift): ");
                 int columnOffset = sc.nextInt();
                 Encryptor e = new Encryptor(numRows, numColumns, rowOffset, columnOffset);
                 System.out.print("Enter the message that you want to encrypt: ");
@@ -37,9 +37,9 @@ public class Main {
                 int numRows = sc.nextInt();
                 System.out.print("Enter the number of columns: ");
                 int numColumns = sc.nextInt();
-                System.out.print("Enter the row offset: ");
+                System.out.print("Enter the row offset (negative = left shift, positive = right shift, 0 = no shift): ");
                 int rowOffset = sc.nextInt();
-                System.out.print("Enter the column offset: ");
+                System.out.print("Enter the column offset (negative = left shift, positive = right shift, 0 = no shift): ");
                 int columnOffset = sc.nextInt();
                 Encryptor e = new Encryptor(numRows, numColumns, rowOffset, columnOffset);
                 System.out.print("Enter the message that you want to decrypt: ");

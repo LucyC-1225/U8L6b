@@ -206,7 +206,8 @@ public class Encryptor
                     if (c < letterBlock[0].length - numShifts){
                         result[r][c + numShifts] = letterBlock[r][c];
                     } else {
-                        result[r][c - numShifts - 1] = letterBlock[r][c];
+                        //check if it works
+                        result[r][numShifts - (numCols - c)] = letterBlock[r][c];
                     }
                 }
             }
@@ -216,7 +217,8 @@ public class Encryptor
                     if (c >= numShifts * -1){
                         result[r][c - (numShifts * -1)] = letterBlock[r][c];
                     } else {
-                        result[r][c + (numShifts * -1) + 1] = letterBlock[r][c];
+                        //check
+                        result[r][numCols - (numShifts - c)] = letterBlock[r][c];
                     }
                 }
             }
@@ -236,7 +238,8 @@ public class Encryptor
                     if (r < letterBlock.length - numShifts){
                         result[r + numShifts][c] = letterBlock[r][c];
                     } else {
-                        result[r - numShifts - 1][c] = letterBlock[r][c];
+                        //check
+                        result[numShifts - (numRows - r)][c] = letterBlock[r][c];
                     }
                 }
             }
@@ -246,7 +249,8 @@ public class Encryptor
                     if (r >= numShifts * -1){
                         result[r - (numShifts * -1)][c] = letterBlock[r][c];
                     } else {
-                        result[r + (numShifts * -1) + 1][c] = letterBlock[r][c];
+                        //check
+                        result[numRows - (numShifts - r)][c] = letterBlock[r][c];
                     }
                 }
             }
